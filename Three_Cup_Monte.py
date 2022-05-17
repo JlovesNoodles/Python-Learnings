@@ -1,7 +1,5 @@
 from random import shuffle
 
-from random import shuffle
-
 def shuffle_cup():
     cups = [' ' , '0', ' ']
     shuffle(cups)
@@ -10,7 +8,11 @@ def shuffle_cup():
 V_shuffle_cup = shuffle_cup()
 
 def user_guess():
-    guess = input("Choose A number between 0, 1, 2 -> ")
+    
+    guess = ''
+    while guess not in ['0', '1', '2']:
+        
+        guess = input("Choose A number between 0, 1, 2 -> ")
     return guess
 
 guess = user_guess()
