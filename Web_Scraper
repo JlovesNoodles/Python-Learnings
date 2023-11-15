@@ -13,20 +13,27 @@ def webscraper_website_content():
     selected_divs = soup.select('div.card-content')
 
     # iterate through each selected div and extract specific elements
-    # This is used to seperate different html elements
     for div in selected_divs:
         # Extract title, company, location, and date
+         # This is used to seperate different html elements
         title = div.select_one('h2.title.is-5').text.strip()
         company = div.select_one('h3.subtitle.is-6.company').text.strip()
         location = div.select_one('p.location').text.strip()
         time = div.select_one('time').text.strip()
 
         # Extract the "Learn" and "Apply" links based on text content
-        # This applies to get seperate link with the same html class. You can use the text= function to search for the specific key term.
-        learn = div.find('a', text='Learn')['href'].strip() if div.find('a', text='Learn') else "N/A"
-        apply = div.find('a', text='Apply')['href'].strip() if div.find('a', text='Apply') else "N/A"
+        # This applies to get seperate link with the same html class. You can use the strings= function to search for the specific key term.
+        learn = div.find('a', string='Learn')['href'].strip() if div.find('a', string='Learn') else "N/A"
+        apply = div.find('a', string='Apply')['href'].strip() if div.find('a', string='Apply') else "N/A"
 
-        # Print the extracted information with clickable "Learn" and "Apply" links
-        print(f"Title: {title}\nCompany: {company}\nLocation: {location}\nTime: {time}\nLearn: {learn}\nApply: {apply}\n\n")
+
+        #uncomment this part if you want to print all
+        #print(f"Title: {title}\nCompany: {company}\nLocation: {location}\nTime: {time}\nLearn: {learn}\nApply: {apply}\n\n")
+
+
+        # This will check for the word developer in the Title and will only display that.
+        if 'Developer' in title:
+            # Print the extracted information with clickable "Learn" and "Apply" links
+            print(f"Title: {title}\nCompany: {company}\nLocation: {location}\nTime: {time}\nLearn: {learn}\nApply: {apply}\n\n")
 
 webscraper_website_content()
