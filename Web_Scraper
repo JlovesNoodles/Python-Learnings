@@ -13,7 +13,7 @@ def webscraper_website_content():
     selected_divs = soup.select('div.card-content')
 
     # iterate through each selected div and extract specific elements
-    # this is being used to disect each and every HTML element
+    # This is used to seperate different html elements
     for div in selected_divs:
         # Extract title, company, location, and date
         title = div.select_one('h2.title.is-5').text.strip()
@@ -21,7 +21,12 @@ def webscraper_website_content():
         location = div.select_one('p.location').text.strip()
         time = div.select_one('time').text.strip()
 
-        # Print the extracted information in a single line
-        print(f"{title}\n{company}\n{location}\n{time}\n")
+        # Extract the "Learn" and "Apply" links based on text content
+        # This applies to get seperate link with the same html class. You can use the text= function to search for the specific key term.
+        learn = div.find('a', text='Learn')['href'].strip() if div.find('a', text='Learn') else "N/A"
+        apply = div.find('a', text='Apply')['href'].strip() if div.find('a', text='Apply') else "N/A"
+
+        # Print the extracted information with clickable "Learn" and "Apply" links
+        print(f"Title: {title}\nCompany: {company}\nLocation: {location}\nTime: {time}\nLearn: {learn}\nApply: {apply}\n\n")
 
 webscraper_website_content()
