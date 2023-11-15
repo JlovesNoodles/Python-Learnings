@@ -1,0 +1,27 @@
+import requests
+import bs4
+
+def webscraper_website_content():
+    # get the website content
+    result = requests.get("https://realpython.github.io/fake-jobs/")
+    result.raise_for_status()
+
+    # save into a the soup variable and decode the website via lxml
+    soup = bs4.BeautifulSoup(result.text, "lxml")
+
+    # select all div.card-content elements on the page
+    selected_divs = soup.select('div.card-content')
+
+    # iterate through each selected div and extract specific elements
+    # This is to extract each and single location inside the div
+    for div in selected_divs:
+        # Extract title, company, location, and date
+        title = div.select_one('h2.title').text.strip()
+        company = div.select_one('h3.subtitle').text.strip()
+        location = div.select_one('p.location').text.strip()
+      #  date = div.select_one('time.date').text.strip()
+
+        # Print the extracted information in a single line
+        print(f"{title}\n{company}\n{location}\n")
+
+webscraper_website_content()
