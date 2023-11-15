@@ -13,6 +13,7 @@ def webscraper_website_content():
     selected_divs = soup.select('div.card-content')
 
     # iterate through each selected div and extract specific elements
+    # this is being used to disect each and every HTML element
     for div in selected_divs:
         # Extract title, company, location, and date
         title = div.select_one('h2.title.is-5').text.strip()
