@@ -1,0 +1,46 @@
+import requests
+import bs4
+from urllib.parse import urljoin
+
+
+#this function is being used to open the link on the first parsed content and dislpaying it's content
+def get_page_content(link):
+    result = requests.get(link)
+    result.raise_for_status()
+    soup = bs4.BeautifulSoup(result.text, "html.parser")
+    # Update the selector based on the actual structure of the linked pages
+    content_element = soup.select_one('div.col-md-4.country') or soup.select_one('td') or soup.select_one('div.col-md-12.text-center')
+    return content_element.text.strip() if content_element else "No content found."
+
+def webscraper_website_content():
+    # get the website content
+    result = requests.get("https://www.scrapethissite.com/pages/")
+    result.raise_for_status()
+
+    # save into a the soup variable and decode the website via lxml
+    soup = bs4.BeautifulSoup(result.text, "html.parser")
+
+    # select all 'div.page' elements on the page
+    selected_divs = soup.select('div.page')
+
+    # iterate through each selected 'div.page' element and extract specific information
+    for div in selected_divs:
+        title_element = div.select_one('h3.page-title a')
+
+        #what this does is to print the title without all the text in a string form.
+
+        title_element1 = div.select_one('h3.page-title a').text.strip()
+        information = div.select_one('p.lead.session-desc').text.strip()
+        link_element = div.select_one('a')
+        full_link = urljoin("https://www.scrapethissite.com/", link_element['href'].strip()) if link_element else "N/A"
+
+        # Get the content of the linked page
+        linked_page_content = get_page_content(full_link)
+
+        # Create an embedded link in the title
+        embedded_link = f'<a href="{full_link}" target="_blank">{title_element.text.strip()}</a>' if title_element else "N/A"
+
+        # Print the extracted information for each iteration
+        print(f"Title: {title_element1}\nInformation: {information}\nFull Link: {full_link}\nLinked Page Content: {linked_page_content}\n\n")
+
+webscraper_website_content()
