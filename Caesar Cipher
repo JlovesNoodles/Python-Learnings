@@ -1,0 +1,49 @@
+
+
+#This is where the caesar cipher starts
+print("This is a Caesar Cipher Program, It will run infinitely unless typed N\n\n")
+def caesar_cipher_encrypt(plain_text, shift):
+    encrypted_text = ""
+
+    for char in plain_text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            char_code = ord(char) + shift
+            char_code -= 26 if is_upper and char_code > ord('Z') else 0
+            char_code -= 26 if not is_upper and char_code > ord('z') else 0
+            encrypted_text += chr(char_code)
+        else:
+            encrypted_text += char
+
+    return encrypted_text
+
+def caesar_cipher():
+    value = input('Enter the thing you want to be Caesar ciphered: ')
+    shift = int(input('Enter the shift you want: '))
+    
+    encrypted_value = caesar_cipher_encrypt(value, shift)
+    
+    print(f"Caesar Ciphered: {encrypted_value}")
+
+
+
+# Calling the Function
+caesar_cipher()
+
+#choice = input('\n\nDo you want another (Y/N): ')
+#print()
+#print()
+
+while True:
+        choice = input('\nDo you want another Caesar Cipher? (Y/N): ')
+        print()
+
+        if choice == 'y' or choice =='Y':
+            caesar_cipher()
+        elif choice == 'n' or choice =='N':
+            print("Exiting the program.")
+            break
+        else:
+            print("Sorry, I didn't catch that. Please enter 'Y' or 'N'.")
+
+#This is where the caesar cipher ends
